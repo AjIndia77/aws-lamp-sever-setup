@@ -47,24 +47,24 @@ Developer → Upload Code → Apache → PHP Executes → MySQL Stores Data → 
 ## Architecture
 ```bash
 Internet
-│
-▼
+   │
+   ▼
 AWS Security Group
-│
-▼
+   │
+   ▼
 Ubuntu EC2 Instance
-│
-▼
+   │
+   ▼
 Apache Web Server
-│
-┌─┴─┐
-▼   ▼
+   │
+ ┌─┴─┐
+ ▼   ▼
 PHP  Node.js
-│
-▼
+ │
+ ▼
 MySQL
-│
-▼
+ │
+ ▼
 phpMyAdmin
 ```
 
