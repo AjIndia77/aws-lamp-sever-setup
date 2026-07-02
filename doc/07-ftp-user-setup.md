@@ -18,9 +18,9 @@ sudo adduser ftpuser
 ```
 Set *Password*.
 
-Home directory created automatically.
+Home directory will created automatically.
 
-Give Web Directory Access
+### Give Web Directory Access
 
 If user want to manage website
 ```bash

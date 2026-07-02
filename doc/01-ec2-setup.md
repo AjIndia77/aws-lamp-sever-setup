@@ -1,5 +1,6 @@
 ## Setup webserver on AWS free tier account 
 AWS EC2 instance service
+
 Created instance on ap-south-1a with:
 - Name - LAMP-setup-server
 - OS - Ubuntu 24.04 LTS *(free tier eligible)*
@@ -10,7 +11,7 @@ Created instance on ap-south-1a with:
                      allow HTTP on Anywhere - port 80
 - luanch the instance
 ## After Succesfully creating EC2 instance 
-1. open system *Terminal* to give commands
+1. open system **Terminal** to give commands
 2.  Use ssh client login credential given by AWS or use 
 ```bash
 ssh -i your-key.pem ubuntu@YOUR_PUBLIC_IP

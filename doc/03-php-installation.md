@@ -1,5 +1,6 @@
 ### PHP Installation 
-Server requirments are PHP version - 8.1 and 7.4
+Server required PHP versions are - 8.1 and 7.4
+
 Before installing do software check
 ```sh
 apt policy php
@@ -24,7 +25,7 @@ sudo apt install software-properties-common -y
 Then retry.
 
 - If it shows, install both version
-Run:
+Run for php 8.1:
 ```bash
 sudo apt install -y \
 php8.1 \
@@ -63,7 +64,7 @@ dpkg -l | grep php
 ```
 This confirms all the required PHP modules are present.
 
-- Set the Default PHP Version
+- Now set the **Default PHP Version**
 
 Check the available alternatives:
 ```bash 

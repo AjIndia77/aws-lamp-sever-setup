@@ -1,5 +1,5 @@
 ## Install Node.js LTS
-*Node.js LTS* (Long Time Support) used for Frontend build tools/ APIs
+**Node.js LTS** *(Long Time Support)* used for Frontend build tools/ APIs
 
 Use the official NodeSource setup script:
 ```bash

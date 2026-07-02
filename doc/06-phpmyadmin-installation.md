@@ -1,4 +1,4 @@
-Before installing, don't run the installer yet. On Ubuntu 24.04, the package isn't always available from the default repositories.
+## ⚠️ Before installing, don't run the installer yet. On Ubuntu 24.04, the package isn't always available from the default repositories.
 
 First check:
 ```bash
@@ -30,7 +30,7 @@ Also search for available phpMyAdmin packages
 ```bash
 apt search phpmyadmin
 ```
-output
+Output
 ```sh
 Sorting... Done 
 Full Text Search... Done 
@@ -55,7 +55,7 @@ cd /tmp
 
 wget https://files.phpmyadmin.net/phpMyAdmin/5.2.3/phpMyAdmin-5.2.3-all-languages.tar.gz
 ```
-If that succeeds:
+If that succeeds, Extract it:
 ```bash
 tar -xzf phpMyAdmin-5.2.3-all-languages.tar.gz
 ```
@@ -73,7 +73,7 @@ sudo chmod -R 755 /var/www/html/phpmyadmin
 cd /var/www/html/phpmyadmin
 sudo cp config.sample.inc.php config.inc.php
 ```
-- Generate a secure *blowfish secret*:
+- Generate a secure **blowfish secret**:
 ```bash
 openssl rand -base64 32
 ```
@@ -92,12 +92,13 @@ $cfg['blowfish_secret'] = 'PASTE_THE_RANDOM_STRING_HERE';
 ```
 Save the file.
 
-Restart Apache
+- Restart Apache
 ```bash
 sudo systemctl restart apache2
 ```
 Test
-Open: http://YOUR_PUBLIC_IP/phpmyadmin
+
+Open: *http://YOUR_PUBLIC_IP/phpmyadmin*
 
 It shows phpmyadmin portal running.....
 Now login
@@ -118,4 +119,5 @@ EXIT;
 At phpmyadmin write
 
 Username: *admin*
+
 Password: *Password@123*

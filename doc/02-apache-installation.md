@@ -1,5 +1,5 @@
 ## Apache Installion 
-Go through to documention of Apche installation on Ubuntu
+Go through to the documention of Apche installation on Ubuntu
 - Check Apache service 
 ```bash
 apt policy apache2
