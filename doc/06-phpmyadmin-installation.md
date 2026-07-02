@@ -1,123 +1,137 @@
-## ⚠️ Before installing, don't run the installer yet. On Ubuntu 24.04, the package isn't always available from the default repositories.
+# 06. phpMyAdmin Installation
 
-First check:
+> ⚠️ On Ubuntu 24.04, the phpMyAdmin package from the default repository requires PHP 8.2+, which conflicts with this project's PHP 8.1 requirement. This doc walks through diagnosing that and installing phpMyAdmin manually instead.
+
+## 1. Check the Default Repository Package
+
 ```bash
 apt policy phpmyadmin
 ```
-it give output as 
-```bash
-phpmyadmin: 
-Installed: 4:5.2.1+dfsg-3 
-Candidate: 4:5.2.1+dfsg-3 
-Version table: 
-*** 4:5.2.1+dfsg-3 500 500 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 
-Packages 100 /var/lib/dpkg/status
-```
-This is the Ubuntu repository package, which on Ubuntu 24.04 requires PHP 8.2+.
 
-- Check what repositories are enabled
+Output:
+phpmyadmin:
+Installed: 4:5.2.1+dfsg-3
+Candidate: 4:5.2.1+dfsg-3
+Version table:
+*** 4:5.2.1+dfsg-3 500
+500 http://ap-south-1.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 Packages
+100 /var/lib/dpkg/status
+
+This is the Ubuntu repository package, which requires PHP 8.2+ on Ubuntu 24.04.
+
+## 2. Confirm No Compatible Alternative Exists
+
+Check enabled repositories:
 ```bash
 grep -R ^deb /etc/apt/sources.list.d/
 ```
+
+Check available package versions:
 ```bash
 apt-cache madison phpmyadmin
 ```
-Gives output 
-```sh
-phpmyadmin | 4:5.2.1+dfsg-3 | http://ap-south-1.ec2.archive.ubuntu.com/ubuntu noble/universe amd64 Packages
-```
-Also search for available phpMyAdmin packages
+
+Search for alternatives:
 ```bash
 apt search phpmyadmin
 ```
-Output
-```sh
-Sorting... Done 
-Full Text Search... Done 
-adminer/noble 4.8.1-2 all Web-based database administration tool 
-php-phpmyadmin-motranslator/noble,now 5.3.1-1 all [installed,automatic] translation API for PHP using Gettext MO files 
-php-phpmyadmin-shapefile/noble,now 3.0.2-1 all [installed,automatic] ESRI ShapeFile library for PHP 
-php-phpmyadmin-sql-parser/noble,now 5.8.2-1 all [installed,automatic] validating SQL lexer and parser 
-phpliteadmin/noble 1.9.8.2-2 all web-based SQLite database admin tool 
-phpliteadmin-themes/noble 1.9.8.2-2 all web-based SQLite database admin tool - themes 
-phpmyadmin/noble,now 4:5.2.1+dfsg-3 all [installed] MySQL web administration tool
-```
-- From the output
-1. Ubuntu 24.04 (noble) only has phpMyAdmin 5.2.1 in its repository.
-2. That package requires PHP 8.2+ because of an Ubuntu packaging issue.
-3. There is no alternate phpMyAdmin package for PHP 8.1 in the Ubuntu repository.
 
-Since default PHP 8.1 version is choosen
+**Findings:**
+1. Ubuntu 24.04 (noble) only ships phpMyAdmin 5.2.1 in its repository.
+2. That package requires PHP 8.2+ due to an Ubuntu packaging decision.
+3. No PHP 8.1–compatible phpMyAdmin package exists in the Ubuntu repository.
 
-Use phpMyAdmin 5.2.3, which supports PHP 7.2 and newer, so it's compatible with PHP 8.1.
+## 3. Install phpMyAdmin Manually
+
+Since PHP 8.1 is the version chosen for this project, install **phpMyAdmin 5.2.3** directly — it officially supports PHP 7.2 and newer, making it compatible with 8.1.
+
 ```bash
 cd /tmp
-
 wget https://files.phpmyadmin.net/phpMyAdmin/5.2.3/phpMyAdmin-5.2.3-all-languages.tar.gz
 ```
-If that succeeds, Extract it:
+
+Extract it:
 ```bash
 tar -xzf phpMyAdmin-5.2.3-all-languages.tar.gz
 ```
+
 Move it into Apache's web root:
 ```bash
 sudo mv phpMyAdmin-5.2.3-all-languages /var/www/html/phpmyadmin
 ```
-Set permissions
+
+Set correct ownership and permissions:
 ```bash
 sudo chown -R www-data:www-data /var/www/html/phpmyadmin
 sudo chmod -R 755 /var/www/html/phpmyadmin
 ```
-### Create the configuration
+
+## 4. Create the Configuration File
+
 ```bash
 cd /var/www/html/phpmyadmin
 sudo cp config.sample.inc.php config.inc.php
 ```
-- Generate a secure **blowfish secret**:
+
+Generate a secure blowfish secret (used to encrypt session data):
 ```bash
 openssl rand -base64 32
 ```
-Copy the generated string.
-Edit the configuration:
+
+Copy the generated string, then edit the config:
 ```bash
 sudo nano /var/www/html/phpmyadmin/config.inc.php
 ```
+
 Find:
-```sh
+```php
 $cfg['blowfish_secret'] = '';
 ```
-Replace it with:
-```sh
+
+Replace with:
+```php
 $cfg['blowfish_secret'] = 'PASTE_THE_RANDOM_STRING_HERE';
 ```
+
 Save the file.
 
-- Restart Apache
+## 5. Restart Apache and Test
+
 ```bash
 sudo systemctl restart apache2
 ```
-Test
 
-Open: *http://YOUR_PUBLIC_IP/phpmyadmin*
+Open in browser:
+http://YOUR_PUBLIC_IP/phpmyadmin
 
-It shows phpmyadmin portal running.....
-Now login
+You should see the phpMyAdmin login portal.
+
+## 6. Create a Login-Capable MySQL User
+
+Login to MySQL:
 ```bash
 sudo mysql
 ```
-On MySQL ->
-```bash
-SELECT user,host,plugin FROM mysql.user;
+
+Check the root user's authentication method:
+```sql
+SELECT user, host, plugin FROM mysql.user;
 ```
-If it shows *root* user uses *auth_socket* then phpmyadmin will not login, then create a new mysql user
-```bash
-CREATE USER 'admin'@'localhost' IDENTIFIED BY 'Password@123';
+
+If `root` uses `auth_socket`, phpMyAdmin (which logs in with a username/password over the web) won't be able to authenticate as root. Create a dedicated admin user instead:
+
+```sql
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'YourSecurePassword';
 GRANT ALL PRIVILEGES ON *.* TO 'admin'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 EXIT;
 ```
-At phpmyadmin write
 
-Username: *admin*
+> Replace `YourSecurePassword` with your own strong password — never commit real credentials to a public repository.
 
-Password: *Password@123*
+Log into phpMyAdmin using:
+- **Username:** `admin`
+- **Password:** *(the one you set above)*
+
+---
+**Previous:** [← 05. Node.js Installation](./05-nodejs-installation.md) | **Next:** [07. FTP User Setup →](./07-ftp-user-setup.md)
