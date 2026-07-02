@@ -3,7 +3,7 @@ Configured an AWS EC2 Ubuntu web server using the LAMP stack (Linux, Apache, MyS
 What you created
 
 Built an AWS Ubuntu Web Server with the following stack:
-
+```bash
 AWS EC2
      │
 Ubuntu 24.04 LTS
@@ -21,6 +21,7 @@ Node.js LTS
 FTP User
      │
 SSL 
+```
 
 This is called a LAMP Stack (Linux + Apache + MySQL + PHP) with Node.js added.
 
@@ -28,17 +29,17 @@ What is it used for?
 
 This server can host PHP applications such as:
 
-WordPress websites
-Insurance portals 
-Laravel applications
-CodeIgniter applications
-CRM systems
-Admin Panels
-School Management Systems
-Company websites
+1. WordPress websites
+2. Insurance portals 
+3. Laravel applications
+4. CodeIgniter applications
+5. CRM systems
+6. Admin Panels
+7. School Management Systems
+8. Company websites
 
 The flow is:
-
+```sh
 Developer
       │
       │ Upload Code
@@ -50,3 +51,4 @@ PHP Executes Code
 MySQL Stores Data
       │
 User Opens Website
+```
