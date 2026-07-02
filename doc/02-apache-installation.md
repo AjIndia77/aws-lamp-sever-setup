@@ -36,7 +36,7 @@ sudo ss -tlnp
 
 ## 5. Test in Browser
 
-Open your instance's public IP in a browser: *** http://YOUR_PUBLIC_IP***
+Open your instance's public IP in a browser: ***http://YOUR_PUBLIC_IP***
 
 You should see the default Apache landing page:
 

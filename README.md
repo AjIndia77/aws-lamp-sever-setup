@@ -12,7 +12,6 @@ Production-ready LAMP (Linux, Apache, MySQL, PHP) web server deployed and config
 - [Architecture](#architecture)
 - [Technologies Used](#technologies-used)
 - [Setup Guide](#setup-guide)
-- [Screenshots](#screenshots)
 - [Lessons Learned](#lessons-learned)
 - [Challenges & Solutions](#challenges--solutions)
 - [Author](#author)
@@ -46,6 +45,7 @@ WordPress sites, Laravel/CodeIgniter applications, CRMs, admin panels, school ma
 Developer → Upload Code → Apache → PHP Executes → MySQL Stores Data → User Opens Website
 
 ## Architecture
+```bash
 Internet
 │
 ▼
@@ -66,6 +66,7 @@ MySQL
 │
 ▼
 phpMyAdmin
+```
 
 ## Technologies Used
 
@@ -92,13 +93,6 @@ Full step-by-step installation docs are in [`/doc`](./doc):
 
 Quick reference commands: [`commands/setup-commands.md`](./commands/setup-commands.md)
 Apache config files: [`configs/apache`](./configs/apache)
-
-## Screenshots
-
-| Server Running | phpMyAdmin | [Add Title] |
-|---|---|---|
-| ![screenshot](./screenshots/[aws-lamp-server-setup/phpmyadmin-portal.png].png) | 
-![screenshot](./screenshots/[filename].png) | ![screenshot](./screenshots/[filename].png) |
 
 ## Lessons Learned
 
@@ -128,4 +122,4 @@ On Ubuntu 24.04, the default phpMyAdmin package required PHP 8.2+, but the proje
 ## Author
 
 **[Ambika Joshi]**
-[GitHub](https://github.com/AjIndia77) · [LinkedIn](https://www.linkedin.com/in/ambika-joshi-aj/) · [Email](indiaaj282@gmail.com)
+[GitHub](https://github.com/AjIndia77) · [LinkedIn](https://www.linkedin.com/in/ambika-joshi-aj/) · [Email](https://mail.com/indiaaj282@gmail.com)
