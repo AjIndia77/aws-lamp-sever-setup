@@ -1,0 +1,19 @@
+# Custom MySQL overrides for this project
+# Location: /etc/mysql/mysql.conf.d/99-custom.cnf
+# After editing: sudo systemctl restart mysql
+
+[mysqld]
+# Only accept local connections — no remote MySQL access on this project
+bind-address = 127.0.0.1
+
+# Conservative settings suitable for a t2.micro (1GB RAM) instance
+innodb_buffer_pool_size = 128M
+max_connections = 50
+
+# Log slow queries for basic performance visibility
+slow_query_log = 1
+slow_query_log_file = /var/log/mysql/slow-query.log
+long_query_time = 2
+
+# Disable strict mode issues with some legacy apps (only if compatibility requires it)
+# sql_mode = "NO_ENGINE_SUBSTITUTION"
